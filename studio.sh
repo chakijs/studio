@@ -58,6 +58,10 @@ caddy-start() {
     echo "    Running: caddy -port ${caddy_port} -root ${CHAKI_REPO}/sencha-workspace browse"
     setsid hab pkg exec core/caddy caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse
     echo "    * Open ${caddy_root} to browse sencha-workspace"
+
+    if [[ "${HAB_DOCKER_OPTS}" != *":${caddy_port}"* ]]; then
+        echo "      (If using Mac or Windows, ensure HAB_DOCKER_OPTS=\"-p ${caddy_port}:${caddy_port}\" was set when entering the studio to expose this port to your host system)"
+    fi
 }
 
 caddy-stop() {
