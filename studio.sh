@@ -9,7 +9,6 @@ caddy_root="http://localhost:${caddy_port}"
 echo
 echo "--> Installing additional studio packages for Sencha development..."
 hab pkg binlink jarvus/sencha-cmd sencha
-hab pkg binlink core/caddy caddy
 
 
 # welcome message and environment detection
@@ -57,7 +56,7 @@ caddy-start() {
     echo "--> Launching the Caddy web server in the background..."
 
     echo "    Running: caddy -port ${caddy_port} -root ${CHAKI_REPO}/sencha-workspace browse"
-    setsid caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse
+    setsid hab pkg exec core/caddy caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse
     echo "    * Open ${caddy_root} to browse sencha-workspace"
 }
 
