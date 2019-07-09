@@ -12,6 +12,17 @@ hab pkg binlink jarvus/sencha-cmd sencha
 hab pkg binlink core/caddy caddy
 
 
+# welcome message and environment detection
+echo
+echo "--> Welcome to ChakiJS Studio! Detecting environment..."
+if [ -z "${CHAKI_REPO}" ]; then
+    CHAKI_REPO="$( cd "$( dirname "${BASH_SOURCE[1]}" )" && pwd)"
+    CHAKI_REPO="${CHAKI_REPO:-/src}"
+fi
+echo "    CHAKI_REPO=${CHAKI_REPO}"
+echo
+
+
 # setup sencha cmd
 echo
 echo "--> Setting up Sencha CMD..."
@@ -69,16 +80,3 @@ _cbl_studio_cleanup() {
 }
 
 trap _cbl_studio_cleanup exit
-
-
-
-
-# final message
-echo
-echo "--> Welcome to ChakiJS Studio! Detecting environment..."
-if [ -z "${CHAKI_REPO}" ]; then
-    CHAKI_REPO="$( cd "$( dirname "${BASH_SOURCE[1]}" )" && pwd)"
-    CHAKI_REPO="${CHAKI_REPO:-/src}"
-fi
-echo "    CHAKI_REPO=${CHAKI_REPO}"
-echo
