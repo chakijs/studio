@@ -57,7 +57,7 @@ caddy-start() {
     echo "--> Launching the Caddy web server in the background..."
 
     echo "    Running: caddy -port ${caddy_port} -root ${CHAKI_REPO}/sencha-workspace browse"
-    setsid caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse &
+    setsid caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse
     echo "    * Open ${caddy_root} to browse sencha-workspace"
 }
 
