@@ -56,7 +56,8 @@ caddy-start() {
     echo "--> Launching the Caddy web server in the background..."
 
     echo "    Running: caddy -port ${caddy_port} -root ${CHAKI_REPO}/sencha-workspace browse"
-    setsid hab pkg exec core/caddy caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" -pidfile /hab/bin/caddy.pid browse
+    hab pkg exec core/caddy caddy -port "${caddy_port}" -agree -quiet -root "${CHAKI_REPO}/sencha-workspace" &
+    CADDY_PID=$!
     echo "    * Open ${caddy_root} to browse sencha-workspace"
 
     if [[ "${HAB_DOCKER_OPTS}" != *":${caddy_port}"* ]]; then
@@ -65,12 +66,12 @@ caddy-start() {
 }
 
 caddy-stop() {
-    [ -f /hab/bin/caddy.pid ] && {
+    [ -n "${CADDY_PID}" ] && {
         echo
         echo "--> Stopping web server..."
-        CADDY_PID=$(cat /hab/bin/caddy.pid);
         echo "    Killing caddy process #${CADDY_PID}"
         kill "${CADDY_PID}"
+        unset CADDY_PID
     }
 }
 
